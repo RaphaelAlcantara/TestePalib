@@ -1,3 +1,5 @@
+from selenium.webdriver.firefox.options import Options
+
 import geradorPessoas as gp
 import time
 
@@ -36,9 +38,19 @@ servico = Service(GeckoDriverManager().install()) # instala o driver do chrome a
 # navegador = webdriver.Firefox(service=servico)
 navegador = webdriver.Firefox(service=servico)
 
-print(cpf)
+
+
+
+#salvar cpf em um arquivo txt
+arquivo = open('cpf.txt', 'a')
+arquivo.write('\n' + cpf + '\n')
+arquivo.close()
+
 
 from selenium.webdriver import ActionChains, Keys
+
+options = Options()
+options.add_argument("--start-maximized")
 
 #entra na url que deseja; obs: o link precisa ser completo com https://
 navegador.get("http://localhost:8080/NovoPalib/")
@@ -83,14 +95,13 @@ time.sleep(0.5)
 
 #Registrar
 navegador.find_element('xpath', '//*[@id="formCadUsuario:j_idt42"]').click()
-
+time.sleep(1)
 # #usar lib BY
-# mensagem = navegador.find_element(By.
-# print(mensagem)
+mensagem = navegador.find_element(By.XPATH, '/html/body/div[5]/span[3]').text
+
+if mensagem == "Usuario cadastrado com sucesso!" :
+    print("Teste Cadastro de Usuário: OK")
 
 
 
-#salvar cpf em um arquivo txt
-arquivo = open('cpf.txt', 'w')
-arquivo.write('\n' + cpf + '\n')
-arquivo.close()
+
