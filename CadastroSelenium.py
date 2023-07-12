@@ -187,6 +187,33 @@ try:
 
     logging.info('-' * 50)
 
+# -------------------------------------------------------------------------------------------------------------
+
+#Teste busca avançada
+    logging.info('Iniciando teste de busca avançada')
+
+    navegador.find_element('xpath', '//*[@id="formCards:j_idt20:globalFilter"]').click()
+    time.sleep(0.5)
+    navegador.find_element('xpath', '//*[@id="formCards:j_idt20:globalFilter"]').send_keys('Saga de um vaqueiro')
+    time.sleep(0.5)
+
+    nomeLivro = navegador.find_element('xpath', '/html/body/form[2]/div/div[2]/table/tbody/tr/td/fieldset/legend').text
+    nomeAutor = navegador.find_element('xpath', '/html/body/form[2]/div/div[2]/table/tbody/tr/td/fieldset/div/table/tbody/tr/td[2]/table/tbody/tr[1]/td[2]').text
+    PrecoLivro = navegador.find_element('xpath', '/html/body/form[2]/div/div[2]/table/tbody/tr/td/fieldset/div/table/tbody/tr/td[2]/table/tbody/tr[2]/td[2]').text
+    DescLivro = navegador.find_element('xpath', '/html/body/form[2]/div/div[2]/table/tbody/tr/td/fieldset/div/table/tbody/tr/td[3]').text
+
+    assert nomeLivro == "Saga de um vaqueiro"
+    assert nomeAutor == "A Vaca"
+    assert PrecoLivro == "R$ 12.0"
+    assert DescLivro == "A historia de uma vaca"
+
+    logging.info('Teste de busca avançada finalizado com sucesso')
+
+    num_tests_passed += 1
+
+    logging.info('-' * 50)
+
+    # -------------------------------------------------------------------------------------------------------------
 
 
 
