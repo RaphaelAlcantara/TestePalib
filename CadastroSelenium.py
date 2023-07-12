@@ -214,6 +214,46 @@ try:
     logging.info('-' * 50)
 
     # -------------------------------------------------------------------------------------------------------------
+    # Teste de compra de livro
+
+    logging.info('Iniciando teste de compra de livro')
+
+    navegador.find_element('xpath', '/html/body/form[2]/div/div[2]/table/tbody/tr/td/fieldset/div/button[2]/span').click()
+    time.sleep(0.5)
+    navegador.find_element('xpath', '/html/body/div[1]/div[2]/div/form/div/button[2]/span').click()
+    time.sleep(5)
+
+    statusCompra = navegador.find_element('xpath', '//*[@id="formCards:j_idt20:0:labelPago"]').text
+    divDescLivro = navegador.find_element('xpath', '/html/body/form[2]/table/tbody/tr/td[2]/div/div[2]/div/div[2]/div').text
+    assert divDescLivro == "Nome: Saga de um vaqueiro\nAutor: A Vaca\nPreço: R$ 12.0"
+    assert statusCompra == "Aguardando Pagamento"
+
+    time.sleep(15)
+    navegador.find_element('xpath', '/html/body/form[1]/nav/div/div[2]/ul/li[2]/a').click()
+    time.sleep(0.5)
+    navegador.find_element('xpath', '/html/body/form[1]/nav/div/div[2]/ul/li[2]/ul/li[1]/a').click()
+    assert statusCompra == "Pagamento Realizado"
+
+    navegador.find_element('xpath', '/html/body/form[1]/nav/div/div[2]/ul/li[1]/a').click()
+    time.sleep(0.5)
+    descLivroComprado = navegador.find_element('xpath', '/html/body/form[2]/div/div[2]/div/table/tbody/tr/td[2]/div/div[2]/div/div[2]/div[1]').text
+    assert descLivroComprado == "Nome: Saga de um vaqueiro\nAutor: A Vaca\nPreço: R$ 12.0"
+
+
+
+
+
+
+
+    logging.info('Teste de compra de livro finalizado com sucesso')
+
+    num_tests_passed += 1
+
+    logging.info('-' * 50)
+
+    # -------------------------------------------------------------------------------------------------------------
+
+
 
 
 
