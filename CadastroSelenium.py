@@ -65,7 +65,7 @@ try:
     logging.info('Iniciando teste de cadastro de usuário com dados válidos')
 
     #entra na url que deseja; obs: o link precisa ser completo com https://
-    navegador.get("http://localhost:8080/NovoPalib/")
+    navegador.get("http://localhost:8084/NovoPalib/")
 
     #entra no cadastro
     navegador.find_element('xpath', '//*[@id="formLogin:j_idt17"]').click()
@@ -89,7 +89,7 @@ try:
     navegador.find_element('xpath', '//*[@id="input_formCadUsuario:cepValidator"]').click()
     navegador.find_element('xpath', '//*[@id="input_formCadUsuario:cepValidator"]').send_keys(cep)
     navegador.find_element('xpath', '//*[@id="formCadUsuario:j_idt27"]').click()
-    time.sleep(1)
+    time.sleep(2)
 
     navegador.find_element('xpath', '//*[@id="formCadUsuario:j_idt35_input"]').click()
     navegador.find_element('xpath', '//*[@id="formCadUsuario:j_idt35_input"]').send_keys(numeroCasa)
@@ -157,7 +157,7 @@ try:
     # Teste de login com sucesso
     logging.info('Iniciando teste de login com dados válidos')
     #url igual a inicial
-    navegador.get("http://localhost:8080/NovoPalib/")
+    navegador.get("http://localhost:8084/NovoPalib/")
 
     navegador.find_element('xpath', '//*[@id="input_formLogin:j_idt12"]').click()
     navegador.find_element('xpath', '//*[@id="input_formLogin:j_idt12"]').clear()
@@ -192,10 +192,10 @@ try:
 #Teste busca avançada
     logging.info('Iniciando teste de busca avançada')
 
-    navegador.find_element('xpath', '//*[@id="formCards:j_idt20:globalFilter"]').click()
+    navegador.find_element('xpath', '//*[@id="formCards:j_idt18:globalFilter"]').click()
     time.sleep(0.5)
-    navegador.find_element('xpath', '//*[@id="formCards:j_idt20:globalFilter"]').send_keys('Saga de um vaqueiro')
-    time.sleep(0.5)
+    navegador.find_element('xpath', '//*[@id="formCards:j_idt18:globalFilter"]').send_keys('Saga de um vaqueiro')
+    time.sleep(3)
 
     nomeLivro = navegador.find_element('xpath', '/html/body/form[2]/div/div[2]/table/tbody/tr/td/fieldset/legend').text
     nomeAutor = navegador.find_element('xpath', '/html/body/form[2]/div/div[2]/table/tbody/tr/td/fieldset/div/table/tbody/tr/td[2]/table/tbody/tr[1]/td[2]').text
@@ -219,24 +219,25 @@ try:
     logging.info('Iniciando teste de compra de livro')
 
     navegador.find_element('xpath', '/html/body/form[2]/div/div[2]/table/tbody/tr/td/fieldset/div/button[2]/span').click()
-    time.sleep(0.5)
+    time.sleep(2)
     navegador.find_element('xpath', '/html/body/div[1]/div[2]/div/form/div/button[2]/span').click()
-    time.sleep(5)
+    time.sleep(10)
 
-    statusCompra = navegador.find_element('xpath', '//*[@id="formCards:j_idt20:0:labelPago"]').text
+    statusCompra = navegador.find_element('xpath', '//*[@id="formCards:j_idt18:0:labelPago"]').text
     divDescLivro = navegador.find_element('xpath', '/html/body/form[2]/table/tbody/tr/td[2]/div/div[2]/div/div[2]/div').text
     assert divDescLivro == "Nome: Saga de um vaqueiro\nAutor: A Vaca\nPreço: R$ 12.0"
     assert statusCompra == "Aguardando Pagamento"
 
-    time.sleep(15)
+    time.sleep(20)
     navegador.find_element('xpath', '/html/body/form[1]/nav/div/div[2]/ul/li[2]/a').click()
     time.sleep(0.5)
-    navegador.find_element('xpath', '/html/body/form[1]/nav/div/div[2]/ul/li[2]/ul/li[1]/a').click()
-    assert statusCompra == "Pagamento Realizado"
+    pagoStatus = navegador.find_element('xpath', '//*[@id="formCards:j_idt18:0:labelPago"]').text
 
-    navegador.find_element('xpath', '/html/body/form[1]/nav/div/div[2]/ul/li[1]/a').click()
+    assert pagoStatus == "Pagamento Realizado"
+
+
     time.sleep(0.5)
-    descLivroComprado = navegador.find_element('xpath', '/html/body/form[2]/div/div[2]/div/table/tbody/tr/td[2]/div/div[2]/div/div[2]/div[1]').text
+    descLivroComprado = navegador.find_element('xpath', '/html/body/form[2]/div/div[2]/div/table/tbody/tr/td[2]/div/div[2]/div/div[2]/div').text
     assert descLivroComprado == "Nome: Saga de um vaqueiro\nAutor: A Vaca\nPreço: R$ 12.0"
 
 
@@ -253,6 +254,23 @@ try:
 
     # -------------------------------------------------------------------------------------------------------------
 
+# teste logout
+    logging.info('Iniciando teste de logout')
+
+    navegador.find_element('xpath', '//*[@id="formMenuCliente:j_idt15"]').click()
+    time.sleep(0.5)
+    navegador.find_element('xpath', '//*[@id="formMenuCliente:j_idt16"]').click()
+    time.sleep(0.5)
+
+    MsgTelaInicial = navegador.find_element('xpath', '//*[@id="j_idt8_title"]').text
+
+    assert MsgTelaInicial == "Logar no PaLib"
+
+    num_tests_passed += 1
+
+    logging.info('-' * 50)
+
+    # -------------------------------------------------------------------------------------------------------------
 
 
 
